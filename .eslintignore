@@ -1,0 +1,11 @@
+node_modules
+
+dist
+build
+
+esm/*
+public/*
+tests/*
+coverage
+scripts/*
+*.config.js
