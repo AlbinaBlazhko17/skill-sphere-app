@@ -1,8 +1,0 @@
-{
-	"extends": "../tsconfig.json",
-	"include": ["**/*.ts", "**/*.js", "eslint.config.mjs"],
-	"exclude": ["node_modules", "build"],
-	"compilerOptions": {
-		"baseUrl": "."
-	}
-}

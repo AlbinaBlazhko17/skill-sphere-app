@@ -1,0 +1,17 @@
+{
+  "name": "@skill-sphere/shared",
+  "version": "1.0.0",
+  "description": "Shared package for Skill sphere app",
+  "type": "module",
+  "main": "build/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Albina Blazhko",
+  "license": "ISC",
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}
