@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { type SchemaType } from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -18,6 +18,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: Date,
+  },
+  updatedAt: {
+    type: Date,
+  },
 });
+
+userSchema.set('timestamps', true);
 
 export const User = mongoose.model('User', userSchema);

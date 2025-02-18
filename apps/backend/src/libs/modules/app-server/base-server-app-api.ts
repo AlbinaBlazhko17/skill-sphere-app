@@ -15,6 +15,7 @@ class BaseServerAppApi implements IBaseServerAppApi {
   generateDocs = () => {
     const swaggerOptions: SwaggerOptions = {
       swaggerDefinition: {
+        openapi: '3.0.0',
         info: {
           title: 'Skill Sphere API',
           description: 'Skill Sphere API Information',
@@ -22,7 +23,7 @@ class BaseServerAppApi implements IBaseServerAppApi {
           servers: [{ url: `/api/${this.version}` }],
         },
       },
-      apis: ['./src/modules/**/*.controllers.ts'],
+      apis: ['./src/modules/**/*.controllers.ts', './src/modules/**/*.controllers.js'],
     };
 
     return swaggerJsDoc(swaggerOptions);
