@@ -1,4 +1,3 @@
-import { Router } from 'express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import { type SwaggerOptions } from 'swagger-ui-express';
 import type { ApiRoute, IBaseServerAppApi } from './types/index.js';
