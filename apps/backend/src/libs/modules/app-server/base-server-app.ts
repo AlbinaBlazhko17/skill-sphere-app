@@ -20,6 +20,8 @@ class BaseServerApp implements IBaseServerApp {
     this.initRoutes();
     this.addSwagger();
 
+    this.api.connectToDB();
+
     this.app.listen(this.port, () => {
       console.log(`Server is working at http://localhost:${this.port}`);
     });

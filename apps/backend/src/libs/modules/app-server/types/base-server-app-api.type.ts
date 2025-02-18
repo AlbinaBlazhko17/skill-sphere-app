@@ -5,4 +5,5 @@ export interface IBaseServerAppApi {
   version: string;
   routes: ApiRoute[];
   generateDocs(): SwaggerUiOptions;
+  connectToDB(): void;
 }
