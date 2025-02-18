@@ -13,3 +13,19 @@ export const createUser = async (userData: ISignUpRequest) => {
     updatedAt: user.updatedAt,
   };
 };
+
+export const getUserByEmail = async (email: string) => {
+  const user = await User.findOne({ email });
+
+  if (!user) return null;
+
+  return {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    password: user.password,
+    createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
+    updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
+  };
+};
