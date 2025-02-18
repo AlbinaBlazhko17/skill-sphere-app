@@ -1,10 +1,9 @@
 import bodyParser from 'body-parser';
 import express, { Express } from 'express';
-import swaggerJsDoc from 'swagger-jsdoc';
-import swaggerUi, { type SwaggerOptions } from 'swagger-ui-express';
-import type { ApiRoute, IBaseServerAppApi } from './types/index.js';
+import swaggerUi from 'swagger-ui-express';
+import type { ApiRoute, IBaseServerApp, IBaseServerAppApi } from './types/index.js';
 
-class BaseServerApp {
+class BaseServerApp implements IBaseServerApp {
   private app: Express = express();
   api: IBaseServerAppApi;
 
@@ -21,52 +20,31 @@ class BaseServerApp {
     this.initRoutes();
     this.addSwagger();
 
-    this.app.get('/test', (req, res) => {
-      res.send('Welcome to Express & TypeScript Server');
-    });
-
     this.app.listen(this.port, () => {
       console.log(`Server is working at http://localhost:${this.port}`);
     });
   };
 
   addMiddlewares = () => {
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
-  };
-
-  addRoute = (parameters: ApiRoute) => {
-    const { routePath, method, callback, middlewares } = parameters;
-
-    this.app[method](`/api/${this.api.version}${routePath}`, ...middlewares, callback);
-  };
-
-  addRoutes = (routes: ApiRoute[]) => {
-    routes.forEach((route) => {
-      this.addRoute(route);
-    });
+    this.app.use(bodyParser.urlencoded({ extended: true }));
   };
 
   addSwagger = () => {
-    const swaggerOptions: SwaggerOptions = {
-      swaggerDefinition: {
-        info: {
-          title: 'Skill Sphere API',
-          description: 'Skill Sphere API Information',
-          version: `${this.api.version}.0.0`,
-          servers: [{ url: `/api/${this.api.version}` }],
-        },
-      },
-      apis: ['./src/modules/**/*.controllers.ts'],
-    };
+    this.app.use(`/api-docs`, swaggerUi.serve, swaggerUi.setup(this.api.generateDocs()));
+  };
 
-    const swaggerDocs = swaggerJsDoc(swaggerOptions);
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+  addRouterPath = (parameters: ApiRoute) => {
+    const { routePath, router } = parameters;
+
+    const fullRoutePath = `/api/${this.api.version}${routePath}`;
+    this.app.use(`${fullRoutePath}`, router);
   };
 
   initRoutes = () => {
-    this.addRoutes(this.api.routes);
+    for (const route of this.api.routes) {
+      this.addRouterPath(route);
+    }
   };
 }
 

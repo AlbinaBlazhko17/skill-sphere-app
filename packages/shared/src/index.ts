@@ -1,1 +1,1 @@
-export { HttpMethods } from './libs/enums/http-methods.enum.js';
+export { HttpMethods, ApiPath } from './libs/enums/index.js';

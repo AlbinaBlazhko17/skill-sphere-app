@@ -1,9 +1,7 @@
-import type { RequestHandler } from 'express';
-import type { HttpMethods } from '@skill-sphere/shared';
+import type { ApiPath } from '@skill-sphere/shared';
+import type { Router } from 'express';
 
 export interface ApiRoute {
-  routePath: string;
-  method: HttpMethods;
-  callback: RequestHandler;
-  middlewares: RequestHandler[];
+  routePath: ApiPath;
+  router: Router;
 }
