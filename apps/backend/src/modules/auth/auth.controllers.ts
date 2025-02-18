@@ -218,7 +218,19 @@ class AuthController extends Controller {
         },
       };
     } catch (error) {
-      if (error instanceof MongoServerError) {
+      if (error instanceof errors.E_VALIDATION_ERROR) {
+        return {
+          status: HttpCode.BAD_REQUEST,
+          payload: {
+            error: {
+              message: error.message,
+              details: error.messages.map((message: { field: string; message: string }) => ({
+                [message.field]: message.message,
+              })),
+            },
+          },
+        };
+      } else if (error instanceof MongoServerError) {
         return {
           status: HttpCode.INTERNAL_SERVER_ERROR,
           payload: {

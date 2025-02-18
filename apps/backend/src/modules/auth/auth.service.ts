@@ -6,10 +6,7 @@ import signUpSchema from './libs/schemas/sign-up.schema.js';
 import type { ISignInResponse } from './libs/types/sign-in-response.interface.js';
 import type { ISignUpRequest } from './libs/types/sign-up-request.interface.js';
 import { comparePassword, hashPassword } from './libs/utils/utils.js';
-
-const validateSignupUserData = async (userData: ISignUpRequest): Promise<void> => {
-  await signUpSchema.validate({ ...userData });
-};
+import signInSchema from './libs/schemas/sign-in.schema.js';
 
 const createUser = async (userData: ISignUpRequest): Promise<IUser> => {
   const hashedPassword = await hashPassword(userData.password);
@@ -23,7 +20,7 @@ const createUser = async (userData: ISignUpRequest): Promise<IUser> => {
 };
 
 export const signUp = async (userData: ISignUpRequest): Promise<IUser> => {
-  await validateSignupUserData(userData);
+  await signUpSchema.validate({ ...userData });
 
   const user = await createUser(userData);
 
@@ -31,6 +28,7 @@ export const signUp = async (userData: ISignUpRequest): Promise<IUser> => {
 };
 
 export const signIn = async (email: string, password: string): Promise<ISignInResponse> => {
+  await signInSchema.validate({ email, password });
   const user = await getUserByEmail(email);
 
   if (!user) {
