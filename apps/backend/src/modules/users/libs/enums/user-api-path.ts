@@ -1,3 +1,3 @@
 export enum UserApiPath {
-  USER_ME = '/me',
+  USER_BY_ID = '/:id',
 }

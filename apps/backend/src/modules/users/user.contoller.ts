@@ -53,7 +53,7 @@ class UserController extends Controller {
 
     this.addRoute({
       method: HttpMethods.GET,
-      path: UserApiPath.USER_ME,
+      path: UserApiPath.USER_BY_ID,
       middlewares: [authMiddleware],
       handler: this.getUser,
     });
@@ -91,8 +91,27 @@ class UserController extends Controller {
    *                type: string
    */
 
-  async getUser(req: Request<{}, {}, { user: IUserResponse }>, _: Response): Promise<APIHandlerResponse> {
+  async getUser(req: Request<{ id?: string }, {}, { user: IUserResponse }>, _: Response): Promise<APIHandlerResponse> {
     const { user } = req.body;
+    const { id } = req.params;
+
+    if (!id) {
+      return {
+        status: HttpCode.BAD_REQUEST,
+        payload: {
+          message: 'User ID is required',
+        },
+      };
+    }
+
+    if (user.id !== id) {
+      return {
+        status: HttpCode.FORBIDDEN,
+        payload: {
+          message: 'Forbidden',
+        },
+      };
+    }
 
     if (!user) {
       return {
