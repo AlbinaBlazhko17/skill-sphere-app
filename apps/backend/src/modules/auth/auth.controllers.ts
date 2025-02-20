@@ -18,8 +18,10 @@ import type { ISignUpRequest } from './libs/types/sign-up-request.interface.js';
  *     User:
  *       type: object
  *       required:
- *         - first
- *         - last
+ *         - firstName
+ *         - lastName
+ *         - email
+ *         - password
  *       properties:
  *         id:
  *           type: string
@@ -45,8 +47,8 @@ import type { ISignUpRequest } from './libs/types/sign-up-request.interface.js';
  *
  * @swagger
  *  tags:
- *    name: Sign Up user
- *    description: Sign up a new user
+ *    name: Authentication
+ *    description: Sign up and sign in users
  */
 class AuthController extends Controller {
   constructor() {

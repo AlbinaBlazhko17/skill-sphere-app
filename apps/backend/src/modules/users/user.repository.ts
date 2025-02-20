@@ -31,7 +31,7 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const getUserById = async (id: string) => {
-  const user = await User.findOne({ id });
+  const user = await User.findById(id);
 
   if (!user) return null;
 
