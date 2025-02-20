@@ -1,28 +1,20 @@
-import jwt from 'jsonwebtoken';
-import { type IUser } from '../users/user.js';
-import { getUserByEmail } from '../users/user.repository.js';
+import { createUser, getUserByEmail } from '../users/user.repository.js';
 
-import signUpSchema from './libs/schemas/sign-up.schema.js';
-import type { ISignInResponse } from './libs/types/sign-in-response.interface.js';
-import type { ISignUpRequest } from './libs/types/sign-up-request.interface.js';
-import { comparePassword, hashPassword } from './libs/utils/utils.js';
+import { generateToken } from '../../libs/utils/utils.js';
 import signInSchema from './libs/schemas/sign-in.schema.js';
+import signUpSchema from './libs/schemas/sign-up.schema.js';
+import type { ISignInResponse, ISignUpRequest, ISignUpResponse } from './libs/types/types.js';
+import { comparePassword, hashPassword } from './libs/utils/utils.js';
 
-const createUser = async (userData: ISignUpRequest): Promise<IUser> => {
+export const signUp = async (userData: ISignUpRequest): Promise<ISignUpResponse> => {
+  await signUpSchema.validate({ ...userData });
+
   const hashedPassword = await hashPassword(userData.password);
 
   const user = await createUser({
     ...userData,
     password: hashedPassword,
   });
-
-  return user;
-};
-
-export const signUp = async (userData: ISignUpRequest): Promise<IUser> => {
-  await signUpSchema.validate({ ...userData });
-
-  const user = await createUser(userData);
 
   return user;
 };
@@ -52,30 +44,4 @@ export const signIn = async (email: string, password: string): Promise<ISignInRe
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
   };
-};
-
-export const generateToken = (email: string): string => {
-  const jwtSecret = process.env.JWT_SECRET;
-
-  if (!jwtSecret) {
-    throw new Error('JWT_SECRET is not defined');
-  }
-
-  const token = jwt.sign({ email }, jwtSecret, {
-    expiresIn: '7d',
-  });
-
-  return token;
-};
-
-export const verifyToken = (token: string): IUser => {
-  const jwtSecret = process.env.JWT_SECRET;
-
-  if (!jwtSecret) {
-    throw new Error('JWT_SECRET is not defined');
-  }
-
-  const user = jwt.verify(token, jwtSecret) as IUser;
-
-  return user;
 };
