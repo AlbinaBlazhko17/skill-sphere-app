@@ -10,6 +10,8 @@ import { signIn, signUp } from './auth.service.js';
 import { AuthApiPath } from './libs/enums/auth-api-path.js';
 import type { ISignInRequest } from './libs/types/sign-in-request.interface.js';
 import type { ISignUpRequest } from './libs/types/sign-up-request.interface.js';
+import { blocklist } from './libs/utils/blocklist.js';
+import { authMiddleware } from './auth.middleware.js';
 
 /**
  * @swagger
@@ -66,6 +68,13 @@ class AuthController extends Controller {
       path: AuthApiPath.SIGN_IN,
       middlewares: [],
       handler: this.signIn,
+    });
+
+    this.addRoute({
+      method: HttpMethods.POST,
+      path: AuthApiPath.LOGOUT,
+      middlewares: [authMiddleware],
+      handler: this.logout,
     });
   }
 
@@ -263,6 +272,33 @@ class AuthController extends Controller {
         },
       },
     };
+  }
+
+  async logout(req: Request, res: Response): Promise<APIHandlerResponse> {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (token) {
+      blocklist.add(token);
+    }
+
+    try {
+      return {
+        status: HttpCode.OK,
+        payload: {
+          message: 'User logged out successfully',
+        },
+      };
+    } catch (error) {
+      return {
+        status: HttpCode.INTERNAL_SERVER_ERROR,
+        payload: {
+          error: {
+            message: 'Unexpected error',
+          },
+        },
+      };
+    }
   }
 }
 

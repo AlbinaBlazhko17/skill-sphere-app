@@ -1,17 +1,25 @@
 import { Request, Response, NextFunction } from 'express';
 import { HttpCode } from '@skill-sphere/shared';
 import { verifyToken } from '../../libs/utils/utils.js';
+import { blocklist } from '../auth/auth.js';
 
 export const authMiddleware = async (
   req: Request<{ id?: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const token = req.headers.authorization;
+  const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
   if (!token) {
     res.status(HttpCode.UNAUTHORIZED).json({
       message: 'Token is required',
+    });
+    return;
+  }
+
+  if (blocklist.has(token)) {
+    res.status(HttpCode.UNAUTHORIZED).json({
+      message: 'Invalid token',
     });
     return;
   }
