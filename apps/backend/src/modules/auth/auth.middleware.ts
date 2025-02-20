@@ -17,9 +17,13 @@ export const authMiddleware = async (
   }
 
   try {
-    const user = verifyToken(token);
+    const id = verifyToken(token);
 
-    req.body.user = user;
+    req.body = {
+      ...req.body,
+      id,
+    };
+
     next();
   } catch (error) {
     res.status(HttpCode.UNAUTHORIZED).json({

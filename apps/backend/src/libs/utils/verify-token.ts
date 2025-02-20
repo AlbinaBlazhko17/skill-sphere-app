@@ -1,7 +1,6 @@
-import jwt, { type JwtPayload } from 'jsonwebtoken';
-import type { IUser } from 'src/modules/users/user.entity.js';
+import jwt from 'jsonwebtoken';
 
-export const verifyToken = (token: string): IUser => {
+export const verifyToken = (token: string): string => {
   const jwtSecret = process.env.JWT_SECRET;
 
   if (!jwtSecret) {
@@ -14,5 +13,5 @@ export const verifyToken = (token: string): IUser => {
     throw new Error('Invalid token');
   }
 
-  return jwtPayload.user;
+  return jwtPayload.id;
 };

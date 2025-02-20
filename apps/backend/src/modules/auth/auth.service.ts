@@ -34,14 +34,7 @@ export const signIn = async (email: string, password: string): Promise<ISignInRe
     throw new Error('Invalid password');
   }
 
-  const token = generateToken({
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
-  });
+  const token = generateToken(user.id);
 
   return {
     token,
