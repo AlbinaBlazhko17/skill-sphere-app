@@ -1,10 +1,10 @@
+import { ApiPath } from '@skill-sphere/shared';
 import dotenv from 'dotenv';
 import { Router, type Request, type Response } from 'express';
-import { BaseServerAppApi } from './base-server-app-api.js';
-import { BaseServerApp } from './base-server-app.js';
-import { ApiPath } from '@skill-sphere/shared';
 import { authController } from '../../../modules/auth/auth.js';
 import { userController } from '../../../modules/users/user.js';
+import { BaseServerAppApi } from './base-server-app-api.js';
+import { BaseServerApp } from './base-server-app.js';
 
 dotenv.config();
 

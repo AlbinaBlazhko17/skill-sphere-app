@@ -19,7 +19,6 @@ class BaseServerApp implements IBaseServerApp {
     this.addMiddlewares();
     this.initRoutes();
     this.addSwagger();
-    this.api.configureMulter();
 
     this.api.connectToDB();
 

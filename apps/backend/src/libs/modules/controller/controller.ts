@@ -1,12 +1,16 @@
 import { Router, type Request, type Response } from 'express';
 import type { IControllerOptions } from './types/options.interface.js';
 import type { APIHandler } from './types/handler.type.js';
+import type { Multer } from 'multer';
+import { configureMulter } from 'src/libs/utils/configure-multer.js';
 
 class Controller {
   router: Router;
+  upload: Multer;
 
   constructor() {
     this.router = Router();
+    this.upload = configureMulter();
   }
 
   private async wrapHandler(handler: APIHandler, req: Request, res: Response) {

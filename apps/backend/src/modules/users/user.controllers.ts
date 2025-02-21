@@ -6,7 +6,10 @@ import type { APIHandlerResponse } from 'src/libs/types/api-handler-response.typ
 import { authMiddleware } from '../auth/auth.middleware.js';
 import { UserApiPath } from './libs/enums/enums.js';
 import type { IUpdateUser } from './libs/types/update-user.interface.js';
-import { getUser, updateUser, deleteUser } from './user.service.js';
+import { getUser, updateUser, deleteUser, updateUserImage } from './user.service.js';
+import { configureMulter } from '../../libs/utils/utils.js';
+
+export const upload = configureMulter();
 
 /**
  * @swagger
@@ -71,6 +74,13 @@ class UserController extends Controller {
       path: UserApiPath.USER_BY_ID,
       middlewares: [authMiddleware],
       handler: this.deleteUser,
+    });
+
+    this.addRoute({
+      method: HttpMethods.POST,
+      path: UserApiPath.UPLOAD_AVATAR,
+      middlewares: [authMiddleware, this.upload.single('file')],
+      handler: this.uploadAvatar,
     });
   }
 
@@ -305,6 +315,103 @@ class UserController extends Controller {
       if (error instanceof Error) {
         return {
           status: HttpCode.NOT_FOUND,
+          payload: {
+            message: error.message,
+          },
+        };
+      }
+    }
+
+    return {
+      status: HttpCode.INTERNAL_SERVER_ERROR,
+      payload: {
+        message: 'Internal server error',
+      },
+    };
+  };
+
+  /**
+   * @swagger
+   * /users/{id}/upload-avatar:
+   *   post:
+   *     tags:
+   *       - User
+   *     description: Upload user avatar
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         description: User ID
+   *         schema:
+   *           type: string
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         multipart/form-data:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               file:
+   *                 type: string
+   *                 format: binary
+   *                 description: File to upload
+   *     responses:
+   *       200:
+   *         description: User avatar uploaded successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   *                 firstName:
+   *                   type: string
+   *                 lastName:
+   *                   type: string
+   *                 email:
+   *                   type: string
+   *                 createdAt:
+   *                   type: string
+   *                   format: date-time
+   *                 updatedAt:
+   *                   type: string
+   *                   format: date-time
+   */
+
+  uploadAvatar = async (req: Request, _: Response): Promise<APIHandlerResponse> => {
+    const { id } = req.params;
+    const { file } = req;
+
+    if (!id) {
+      return {
+        status: HttpCode.BAD_REQUEST,
+        payload: {
+          message: 'User ID is required',
+        },
+      };
+    }
+
+    if (!file) {
+      return {
+        status: HttpCode.BAD_REQUEST,
+        payload: {
+          message: 'File is required',
+        },
+      };
+    }
+
+    try {
+      const user = await updateUserImage(id, file.path);
+
+      return {
+        status: HttpCode.OK,
+        payload: user,
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          status: HttpCode.INTERNAL_SERVER_ERROR,
           payload: {
             message: error.message,
           },

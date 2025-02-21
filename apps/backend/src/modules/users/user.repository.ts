@@ -76,3 +76,19 @@ export const deleteUserById = async (id: string) => {
     updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
   };
 };
+
+export const attachImageToUser = async (id: string, image: string) => {
+  const user = await User.findByIdAndUpdate(id, { image }, { new: true });
+
+  if (!user) return null;
+
+  return {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    image: user.image,
+    createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
+    updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
+  };
+};

@@ -1,8 +1,7 @@
+import mongoose from 'mongoose';
 import swaggerJsDoc from 'swagger-jsdoc';
 import { type SwaggerOptions } from 'swagger-ui-express';
 import type { ApiRoute, IBaseServerAppApi } from './types/index.js';
-import mongoose from 'mongoose';
-import multer from 'multer';
 
 class BaseServerAppApi implements IBaseServerAppApi {
   version: string;
@@ -55,21 +54,6 @@ class BaseServerAppApi implements IBaseServerAppApi {
     } catch (error) {
       console.error('Error in connectToDB:', error);
     }
-  };
-
-  configureMulter = () => {
-    const storage = multer.diskStorage({
-      destination: function (_, __, cb) {
-        cb(null, 'uploads/');
-      },
-      filename: function (_, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now());
-      },
-    });
-
-    const upload = multer({ storage });
-
-    return upload;
   };
 }
 
