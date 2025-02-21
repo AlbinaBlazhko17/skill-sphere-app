@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "start:dev": "npx tsx watch src/index.ts",
+    "migrate:up": "node migrate.js up",
+    "migrate:down": "node migrate.js down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Albina Blazhko",
@@ -25,12 +27,14 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.13.0",
     "mongoose": "^8.10.1",
+    "multer": "^1.4.5-lts.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/multer": "^1.4.12",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.3"
   }

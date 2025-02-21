@@ -6,4 +6,5 @@ export interface IBaseServerAppApi {
   routes: ApiRoute[];
   generateDocs(): SwaggerUiOptions;
   connectToDB(): void;
+  configureMulter(): void;
 }
