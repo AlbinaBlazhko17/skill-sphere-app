@@ -1,6 +1,6 @@
 import type { IUpdateUser } from './libs/types/update-user.interface.js';
 import type { IUserResponse } from './user.js';
-import { updateUserById, getUserById, deleteUserById, attachImageToUser } from './user.repository.js';
+import { updateUserById, getUserById, deleteUserById, attachImageToUser, getUserImageById } from './user.repository.js';
 
 export const getUser = async (id: string) => {
   const user = await getUserById(id);
@@ -40,4 +40,14 @@ export const updateUserImage = async (id: string, image: string) => {
   }
 
   return user;
+};
+
+export const getUserImage = async (id: string) => {
+  const image = await getUserImageById(id);
+
+  if (!image) {
+    throw new Error('User not found');
+  }
+
+  return image;
 };

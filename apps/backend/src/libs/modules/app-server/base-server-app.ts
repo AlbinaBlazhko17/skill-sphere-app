@@ -2,6 +2,11 @@ import bodyParser from 'body-parser';
 import express, { Express } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import type { ApiRoute, IBaseServerApp, IBaseServerAppApi } from './types/index.js';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class BaseServerApp implements IBaseServerApp {
   private app: Express = express();
@@ -30,6 +35,9 @@ class BaseServerApp implements IBaseServerApp {
   addMiddlewares = () => {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
+
+    this.app.use(express.static(__dirname + '/public'));
+    this.app.use('/uploads', express.static('uploads'));
   };
 
   addSwagger = () => {

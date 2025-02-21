@@ -2,14 +2,12 @@ import type { Request, Response } from 'express';
 import { Controller } from '../../libs/modules/controller/controller.js';
 
 import { HttpCode, HttpMethods } from '@skill-sphere/shared';
+import path from 'path';
 import type { APIHandlerResponse } from 'src/libs/types/api-handler-response.type.js';
 import { authMiddleware } from '../auth/auth.middleware.js';
 import { UserApiPath } from './libs/enums/enums.js';
 import type { IUpdateUser } from './libs/types/update-user.interface.js';
-import { getUser, updateUser, deleteUser, updateUserImage } from './user.service.js';
-import { configureMulter } from '../../libs/utils/utils.js';
-
-export const upload = configureMulter();
+import { deleteUser, getUser, getUserImage, updateUser, updateUserImage } from './user.service.js';
 
 /**
  * @swagger
@@ -81,6 +79,13 @@ class UserController extends Controller {
       path: UserApiPath.UPLOAD_AVATAR,
       middlewares: [authMiddleware, this.upload.single('file')],
       handler: this.uploadAvatar,
+    });
+
+    this.addRoute({
+      method: HttpMethods.GET,
+      path: UserApiPath.USER_AVATAR,
+      middlewares: [authMiddleware],
+      handler: this.getUserAvatar,
     });
   }
 
@@ -412,6 +417,68 @@ class UserController extends Controller {
       if (error instanceof Error) {
         return {
           status: HttpCode.INTERNAL_SERVER_ERROR,
+          payload: {
+            message: error.message,
+          },
+        };
+      }
+    }
+
+    return {
+      status: HttpCode.INTERNAL_SERVER_ERROR,
+      payload: {
+        message: 'Internal server error',
+      },
+    };
+  };
+
+  /**
+   * @swagger
+   * /users/{id}/avatar:
+   *   get:
+   *     tags:
+   *       - User
+   *     description: Get user avatar by user ID
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         description: User ID
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: User avatar
+   *         content:
+   *           image/png:
+   *             schema:
+   *               type: string
+   *               format: binary
+   */
+
+  getUserAvatar = async (req: Request, _: Response): Promise<APIHandlerResponse> => {
+    const { id } = req.params;
+
+    if (!id) {
+      return {
+        status: HttpCode.BAD_REQUEST,
+        payload: {
+          message: 'User ID is required',
+        },
+      };
+    }
+
+    try {
+      const image = await getUserImage(id);
+
+      return {
+        status: HttpCode.OK,
+        filePath: path.resolve(image),
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          status: HttpCode.NOT_FOUND,
           payload: {
             message: error.message,
           },

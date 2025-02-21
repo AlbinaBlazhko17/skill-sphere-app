@@ -6,7 +6,7 @@ export const configureMulter = () => {
       cb(null, 'uploads/');
     },
     filename: function (_, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now());
+      cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1]);
     },
   });
 

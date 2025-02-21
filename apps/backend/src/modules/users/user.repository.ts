@@ -92,3 +92,11 @@ export const attachImageToUser = async (id: string, image: string) => {
     updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
   };
 };
+
+export const getUserImageById = async (id: string) => {
+  const user = await User.findById(id, 'image');
+
+  if (!user) return null;
+
+  return user.image;
+};

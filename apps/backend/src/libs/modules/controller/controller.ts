@@ -15,9 +15,13 @@ class Controller {
 
   private async wrapHandler(handler: APIHandler, req: Request, res: Response) {
     try {
-      const { status, payload } = await handler(req, res);
+      const { status, payload, filePath } = await handler(req, res);
 
-      res.status(status).json(payload);
+      if (filePath) {
+        res.status(status).sendFile(filePath);
+      } else {
+        res.status(status).json(payload);
+      }
     } catch (error) {
       console.error('Error in wrapHandler:', error);
       res.status(500).json({ message: 'Internal Server Error' });
