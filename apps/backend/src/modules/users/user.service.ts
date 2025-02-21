@@ -1,6 +1,6 @@
 import type { IUpdateUser } from './libs/types/update-user.interface.js';
 import type { IUserResponse } from './user.js';
-import { updateUserById, getUserById } from './user.repository.js';
+import { updateUserById, getUserById, deleteUserById } from './user.repository.js';
 
 export const getUser = async (id: string) => {
   const user = await getUserById(id);
@@ -20,4 +20,14 @@ export const updateUser = async (id: string, userData: IUpdateUser) => {
   }
 
   return updatedUser;
+};
+
+export const deleteUser = async (id: string): Promise<void> => {
+  const user = await deleteUserById(id);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  return;
 };

@@ -61,3 +61,18 @@ export const updateUserById = async (id: string, userData: IUpdateUser) => {
     updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
   };
 };
+
+export const deleteUserById = async (id: string) => {
+  const user = await User.findByIdAndDelete(id);
+
+  if (!user) return null;
+
+  return {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
+    updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
+  };
+};

@@ -6,7 +6,7 @@ import type { APIHandlerResponse } from 'src/libs/types/api-handler-response.typ
 import { authMiddleware } from '../auth/auth.middleware.js';
 import { UserApiPath } from './libs/enums/enums.js';
 import type { IUpdateUser } from './libs/types/update-user.interface.js';
-import { getUser, updateUser } from './user.service.js';
+import { getUser, updateUser, deleteUser } from './user.service.js';
 
 /**
  * @swagger
@@ -64,6 +64,13 @@ class UserController extends Controller {
       path: UserApiPath.USER_BY_ID,
       middlewares: [authMiddleware],
       handler: this.updateUser,
+    });
+
+    this.addRoute({
+      method: HttpMethods.DELETE,
+      path: UserApiPath.USER_BY_ID,
+      middlewares: [authMiddleware],
+      handler: this.deleteUser,
     });
   }
 
@@ -249,6 +256,69 @@ class UserController extends Controller {
       };
     }
   }
+
+  /**
+   * @swagger
+   * /users/{id}:
+   *   delete:
+   *     tags:
+   *       - User
+   *     description: Delete user by user ID
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         description: User ID
+   *         schema:
+   *           type: string
+   *   responses:
+   *     204:
+   *       message: User deleted successfully
+   *       description: User deleted successfully
+   *     404:
+   *       message: User not found
+   *       description: User not found
+   */
+
+  deleteUser = async (req: Request<{ id?: string }>, _: Response): Promise<APIHandlerResponse> => {
+    const { id } = req.params;
+
+    if (!id) {
+      return {
+        status: HttpCode.BAD_REQUEST,
+        payload: {
+          message: 'User ID is required',
+        },
+      };
+    }
+
+    try {
+      deleteUser(id);
+
+      return {
+        status: HttpCode.DELETE,
+        payload: {
+          message: 'User deleted successfully',
+        },
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          status: HttpCode.NOT_FOUND,
+          payload: {
+            message: error.message,
+          },
+        };
+      }
+    }
+
+    return {
+      status: HttpCode.INTERNAL_SERVER_ERROR,
+      payload: {
+        message: 'Internal server error',
+      },
+    };
+  };
 }
 
 export { UserController };

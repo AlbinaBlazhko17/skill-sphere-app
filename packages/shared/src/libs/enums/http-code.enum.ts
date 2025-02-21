@@ -1,6 +1,7 @@
 export enum HttpCode {
   BAD_REQUEST = 400,
   CREATED = 201,
+  DELETE = 204,
   FORBIDDEN = 403,
   INTERNAL_SERVER_ERROR = 500,
   NOT_FOUND = 404,
