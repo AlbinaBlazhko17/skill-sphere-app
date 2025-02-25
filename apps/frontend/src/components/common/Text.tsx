@@ -96,10 +96,10 @@ const Text = <C extends React.ElementType>({
   const Component = as || (paragraph ? 'p' : variantMapping[variant] || defaultVariantMapping[variant]) || 'span';
 
   return (
-    <Component className={cn(textVariants({ align, variant, weight }), className)} {...restProps}>
-      {' '}
-      {children}{' '}
-    </Component>
+	<Component className={cn(textVariants({ align, variant, weight }), className)} {...restProps}>
+		{' '}
+		{children}{' '}
+	</Component>
   );
 };
 

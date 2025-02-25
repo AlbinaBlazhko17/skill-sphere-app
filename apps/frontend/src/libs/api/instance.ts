@@ -21,10 +21,12 @@ const authInterceptor = (req: InternalAxiosRequestConfig) => {
   return req;
 };
 
-const handleAxiosError = (error: any) => {
+import { AxiosError } from 'axios';
+
+const handleAxiosError = (error: AxiosError) => {
   if (error.response) {
     return {
-      message: error.response.data.message,
+      message: (error.response.data as { message: string }).message,
       status: error.response.status,
       data: error.response.data,
     };
