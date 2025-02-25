@@ -1,5 +1,10 @@
 {
-  "include": ["**/*.ts", "**/*.js", "apps/backend/migrate.js"],
+  "include": [
+    "**/*.ts",
+    "**/*.js",
+    "apps/backend/migrate.js",
+    "apps/frontend/src/modules/auth/components/sign-up/__tests__/SignUpForm.test.tsx"
+  ],
   "exclude": ["node_modules", "apps", "packages"],
   "compilerOptions": {
     "target": "ESNext" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,

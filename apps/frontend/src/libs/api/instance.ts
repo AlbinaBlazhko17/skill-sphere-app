@@ -1,14 +1,16 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 import { StorageKeys } from '../enums';
 
-const BASE_URL = import.meta.env.VITE_BE_URL;
+const createApi = () => {
+  const BASE_URL = import.meta.env.VITE_BE_URL;
 
-export const API = axios.create({
-  baseURL: `${BASE_URL}/api/v1`,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+  return axios.create({
+    baseURL: `${BASE_URL}/api/v1`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
 
 const authInterceptor = (req: InternalAxiosRequestConfig) => {
   const token = localStorage.getItem(StorageKeys.AUTH_TOKEN);
@@ -40,6 +42,8 @@ const handleAxiosError = (error: AxiosError) => {
     };
   }
 };
+
+export const API = createApi();
 
 API.interceptors.request.use(authInterceptor);
 API.interceptors.response.use(
