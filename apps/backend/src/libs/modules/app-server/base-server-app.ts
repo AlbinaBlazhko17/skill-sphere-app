@@ -4,6 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import type { ApiRoute, IBaseServerApp, IBaseServerAppApi } from './types/index.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,7 +36,12 @@ class BaseServerApp implements IBaseServerApp {
   addMiddlewares = () => {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
-
+    this.app.use(
+      cors({
+        origin: 'http://localhost:5173',
+        credentials: true,
+      })
+    );
     this.app.use(express.static(__dirname + '/public'));
     this.app.use('/uploads', express.static('uploads'));
   };
