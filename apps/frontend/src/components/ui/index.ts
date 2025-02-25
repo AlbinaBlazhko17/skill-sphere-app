@@ -3,3 +3,4 @@ export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, useFormField } from './form';
 export { Label } from './label';
 export { Input } from './input';
+export { Toaster } from './sonner';
