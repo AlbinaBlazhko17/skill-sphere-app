@@ -27,7 +27,7 @@ export default tseslint.config(
       ...reactPlugin.configs['jsx-runtime'].rules,
       'react/jsx-no-target-blank': 'off',
       'react/react-in-jsx-scope': 'off',
-      'react/jsx-indent': [2, 'tab'],
+      'react/jsx-indent': [2, 'space'],
       'react/jsx-indent-props': [2, 'tab'],
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
