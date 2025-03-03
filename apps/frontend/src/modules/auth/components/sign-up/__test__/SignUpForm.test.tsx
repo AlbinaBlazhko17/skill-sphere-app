@@ -1,8 +1,9 @@
 import { SignUpForm } from '../SignUpForm';
 
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, fireEvent, waitFor, screen, act } from '@testing-library/react';
 import { Toaster } from '@/components/ui';
+import { log } from 'console';
+import axios from 'axios';
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -55,14 +56,14 @@ describe('SignUpForm', () => {
 
     fireEvent.click(submitButton);
 
-    screen.debug();
-
     await waitFor(() => {
       expect(screen.getByText('String must contain at least 8 character(s)')).toBeInTheDocument();
     });
   });
 
   it('should show the toast when the form is submitted', async () => {
+    log('Test started');
+
     const wrapper = render(
       <>
         <SignUpForm />
@@ -84,8 +85,11 @@ describe('SignUpForm', () => {
 
     fireEvent.click(submitButton);
 
-    await waitFor(() => {
-      expect(screen.getByText(/Account created successfully/i)).toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        expect(screen.getByText(/Account created successfully/i)).toBeInTheDocument();
+      },
+      { timeout: 1000 }
+    );
   });
 });

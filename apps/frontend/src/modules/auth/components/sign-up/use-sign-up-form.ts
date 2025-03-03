@@ -12,10 +12,9 @@ export const useSignUpForm = () => {
   });
 
   const onSubmit = form.handleSubmit((values) => {
-    toast('Account created successfully');
-    // API.post(`${ApiPath.AUTH}/sign-up`, values).then(() => {
-
-    // });
+    API.post(`${ApiPath.AUTH}/sign-up`, values).then(() => {
+      toast('Account created successfully');
+    });
   });
 
   return {

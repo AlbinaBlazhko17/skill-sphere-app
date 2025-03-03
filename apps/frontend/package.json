@@ -12,13 +12,14 @@
     "cov": "jest --coverage --collectCoverageFrom='src/**/*.{ts,tsx}'"
   },
   "dependencies": {
-    "@skill-sphere/shared": "*",
     "@hookform/resolvers": "^4.1.2",
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.2",
+    "@skill-sphere/shared": "*",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "jest-fixed-jsdom": "^0.0.9",
     "lucide-react": "^0.476.0",
     "next-themes": "^0.4.4",
     "react": "^19.0.0",
@@ -31,12 +32,12 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.8",
     "@babel/core": "^7.26.9",
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.26.0",
     "@eslint/js": "^9.19.0",
+    "@tailwindcss/vite": "^4.0.8",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
@@ -71,5 +72,10 @@
   "description": "Frontend for Skill Sphere",
   "main": "eslint.config.js",
   "author": "Albina Blazhko",
-  "license": "ISC"
+  "license": "ISC",
+  "msw": {
+    "workerDirectory": [
+      "__mocks__"
+    ]
+  }
 }
