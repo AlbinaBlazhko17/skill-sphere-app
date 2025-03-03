@@ -7,8 +7,8 @@ import { Toaster } from '@/components/ui';
 import '@/libs/styles/styles.css';
 
 createRoot(document.getElementById('root')!).render(
-	<StrictMode>
-		<RouterProvider router={router} />
-		<Toaster />
-	</StrictMode>
+  <StrictMode>
+    <Toaster />
+    <RouterProvider router={router} />
+  </StrictMode>
 );
