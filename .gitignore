@@ -13,3 +13,9 @@ build
 
 # dev-dist
 dev-dist
+
+#turbo
+.turbo
+
+#dist
+dist
