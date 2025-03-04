@@ -73,7 +73,11 @@ export const SignUpForm = () => {
 				/>
 
 				<div className={'flex justify-end'}>
-					<Button type={'submit'} className={'h-10 w-32'}>
+					<Button
+						type={'submit'}
+						className={'h-10 w-32'}
+						isLoading={form.formState.isSubmitting}
+					>
 						Sign up
 					</Button>
 				</div>
