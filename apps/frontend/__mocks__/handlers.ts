@@ -1,9 +1,10 @@
 import { http, HttpResponse } from 'msw';
 import type { SignUpFormValues } from '../src/modules/auth/libs/types';
 import { VITE_BE_URL } from '../src/libs/constants';
+import { ApiPath, AuthApiPath } from '@skill-sphere/shared';
 
 export const handlers = [
-  http.post<{}, SignUpFormValues>(`${VITE_BE_URL}/api/v1/auth/sign-up`, () => {
+  http.post<{}, SignUpFormValues>(`${VITE_BE_URL}/api/v1${ApiPath.AUTH}${AuthApiPath.SIGN_UP}`, () => {
     return HttpResponse.json({
       message: 'User created successfully',
       user: {

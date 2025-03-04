@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { signUpFormDefaults, signUpFormSchema } from '../../libs';
 import { API } from '@/libs/api';
-import { ApiPath } from '@skill-sphere/shared';
+import { ApiPath, AuthApiPath } from '@skill-sphere/shared';
 import { toast } from 'sonner';
 
 export const useSignUpForm = () => {
@@ -12,7 +12,7 @@ export const useSignUpForm = () => {
   });
 
   const onSubmit = form.handleSubmit((values) => {
-    API.post(`${ApiPath.AUTH}/sign-up`, values).then(() => {
+    API.post(`${ApiPath.AUTH}${AuthApiPath.SIGN_UP}`, values).then(() => {
       toast('Account created successfully');
     });
   });
