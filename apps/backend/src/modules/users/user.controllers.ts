@@ -127,7 +127,7 @@ class UserController extends Controller {
    *                   format: date-time
    */
 
-  async getUser(req: Request<{ id?: string }, {}, { id: string }>, _: Response): Promise<APIHandlerResponse> {
+  async getUser(req: Request<{ id?: string }, unknown, { id: string }>, _: Response): Promise<APIHandlerResponse> {
     const { id: tokenId } = req.body;
     const { id } = req.params;
 
@@ -227,7 +227,7 @@ class UserController extends Controller {
    */
 
   async updateUser(
-    req: Request<{ id?: string }, {}, IUpdateUser & { id: string }>,
+    req: Request<{ id?: string }, unknown, IUpdateUser & { id: string }>,
     _: Response
   ): Promise<APIHandlerResponse> {
     const user = req.body;

@@ -123,7 +123,7 @@ class AuthController extends Controller {
    *                       type: string
    */
 
-  async signUp(req: Request<{}, {}, ISignUpRequest>, _: Response): Promise<APIHandlerResponse> {
+  async signUp(req: Request<unknown, unknown, ISignUpRequest>, _: Response): Promise<APIHandlerResponse> {
     try {
       const user = await signUp(req.body);
 
@@ -214,7 +214,7 @@ class AuthController extends Controller {
    *                       type: string
    */
 
-  async signIn(req: Request<{}, {}, ISignInRequest>, _: Response): Promise<APIHandlerResponse> {
+  async signIn(req: Request<unknown, unknown, ISignInRequest>, _: Response): Promise<APIHandlerResponse> {
     const { email, password } = req.body;
 
     try {
@@ -273,7 +273,7 @@ class AuthController extends Controller {
     };
   }
 
-  async logout(req: Request, res: Response): Promise<APIHandlerResponse> {
+  async logout(req: Request): Promise<APIHandlerResponse> {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
