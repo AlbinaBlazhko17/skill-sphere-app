@@ -141,9 +141,14 @@ class AuthController extends Controller {
           payload: {
             error: {
               message: error.message,
-              details: error.messages.map((message: { field: string; message: string }) => ({
-                [message.field]: message.message,
-              })),
+              details: error.messages
+                .map((message: { field: string; message: string }) => ({
+                  [message.field]: message.message,
+                }))
+                .reduce(
+                  (acc: Record<string, string>, curr: { field: string; message: string }) => ({ ...acc, ...curr }),
+                  []
+                ),
             },
           },
         };
@@ -234,9 +239,14 @@ class AuthController extends Controller {
           payload: {
             error: {
               message: error.message,
-              details: error.messages.map((message: { field: string; message: string }) => ({
-                [message.field]: message.message,
-              })),
+              details: error.messages
+                .map((message: { field: string; message: string }) => ({
+                  [message.field]: message.message,
+                }))
+                .reduce(
+                  (acc: Record<string, string>, curr: { field: string; message: string }) => ({ ...acc, ...curr }),
+                  []
+                ),
             },
           },
         };

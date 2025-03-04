@@ -12,9 +12,18 @@ export const useSignUpForm = () => {
   });
 
   const onSubmit = form.handleSubmit((values) => {
-    API.post(`${ApiPath.AUTH}${AuthApiPath.SIGN_UP}`, values).then(() => {
-      toast('Account created successfully');
-    });
+    API.post(`${ApiPath.AUTH}${AuthApiPath.SIGN_UP}`, values)
+      .then(() => {
+        toast('Account created successfully');
+      })
+      .catch(({ message, data }: { message: string; data?: { [P in keyof typeof signUpFormDefaults]: string } }) => {
+        toast(message);
+        if (data) {
+          Object.entries(data).forEach(([key, value]) => {
+            form.setError(key as keyof typeof signUpFormDefaults, { message: value });
+          });
+        }
+      });
   });
 
   return {

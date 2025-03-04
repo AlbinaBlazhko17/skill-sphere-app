@@ -2,6 +2,9 @@ import axios, { type InternalAxiosRequestConfig } from 'axios';
 import { StorageKeys } from '../enums';
 import { VITE_BE_URL } from '../constants';
 
+import { AxiosError } from 'axios';
+import type { ApiError } from '@skill-sphere/shared';
+
 const createApi = () => {
   return axios.create({
     baseURL: `${VITE_BE_URL}/api/v1`,
@@ -22,14 +25,12 @@ const authInterceptor = (req: InternalAxiosRequestConfig) => {
   return req;
 };
 
-import { AxiosError } from 'axios';
-
-const handleAxiosError = (error: AxiosError) => {
+const handleAxiosError = (error: AxiosError<ApiError>) => {
   if (error.response) {
     return {
-      message: (error.response.data as { message: string }).message,
+      message: error.response.data.error.message,
       status: error.response.status,
-      data: error.response.data,
+      data: error.response.data.error.details,
     };
   } else if (error.request) {
     return {
