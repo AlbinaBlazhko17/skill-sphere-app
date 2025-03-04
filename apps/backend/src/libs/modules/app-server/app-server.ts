@@ -12,20 +12,20 @@ const port = parseInt(process.env.PORT || '8000');
 const router = Router();
 
 const baseServerAppApi = new BaseServerAppApi('v1', [
-  {
-    routePath: ApiPath.AUTH,
-    router: authController.router,
-  },
-  {
-    routePath: ApiPath.USERS,
-    router: userController.router,
-  },
-  {
-    routePath: ApiPath.TEST,
-    router: router.get('/', (req: Request, res: Response) => {
-      res.send('Hello World!');
-    }),
-  },
+	{
+		routePath: ApiPath.AUTH,
+		router: authController.router,
+	},
+	{
+		routePath: ApiPath.USERS,
+		router: userController.router,
+	},
+	{
+		routePath: ApiPath.TEST,
+		router: router.get('/', (req: Request, res: Response) => {
+			res.send('Hello World!');
+		}),
+	},
 ]);
 
 const appServer = new BaseServerApp(port, baseServerAppApi);

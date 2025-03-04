@@ -6,28 +6,38 @@ import { useForm } from 'react-hook-form';
 import { signUpFormDefaults, signUpFormSchema } from '../../libs';
 
 export const useSignUpForm = () => {
-  const form = useForm({
-    resolver: zodResolver(signUpFormSchema),
-    defaultValues: signUpFormDefaults,
-  });
+	const form = useForm({
+		resolver: zodResolver(signUpFormSchema),
+		defaultValues: signUpFormDefaults,
+	});
 
-  const onSubmit = form.handleSubmit((values) => {
-    API.post(`${ApiPath.AUTH}${AuthApiPath.SIGN_UP}`, values)
-      .then(() => {
-        toastWrapper('Account created successfully', 'success');
-      })
-      .catch(({ message, data }: { message: string; data?: { [P in keyof typeof signUpFormDefaults]: string } }) => {
-        toastWrapper(message, 'error');
-        if (data) {
-          Object.entries(data).forEach(([key, value]) => {
-            form.setError(key as keyof typeof signUpFormDefaults, { message: value });
-          });
-        }
-      });
-  });
+	const onSubmit = form.handleSubmit((values) => {
+		API.post(`${ApiPath.AUTH}${AuthApiPath.SIGN_UP}`, values)
+			.then(() => {
+				toastWrapper('Account created successfully', 'success');
+			})
+			.catch(
+				({
+					message,
+					data,
+				}: {
+					message: string;
+					data?: { [P in keyof typeof signUpFormDefaults]: string };
+				}) => {
+					toastWrapper(message, 'error');
+					if (data) {
+						Object.entries(data).forEach(([key, value]) => {
+							form.setError(key as keyof typeof signUpFormDefaults, {
+								message: value,
+							});
+						});
+					}
+				},
+			);
+	});
 
-  return {
-    form,
-    onSubmit,
-  };
+	return {
+		form,
+		onSubmit,
+	};
 };

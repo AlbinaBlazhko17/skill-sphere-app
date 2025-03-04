@@ -1,40 +1,40 @@
 {
-  "name": "skill_sphere_app",
-  "version": "1.0.0",
-  "description": "Course platform",
-  "main": "index.js",
-  "type": "module",
-  "packageManager": "npm@10.9.2",
-  "scripts": {
-    "lint:format": "npm run _prettier -- --check",
-    "lint:type": "npx tsc --noEmit",
-    "build:frontend": "npm run build -w apps/frontend",
-    "build:backend": "npm run build -w apps/backend",
-    "build:turbo": "turbo run build",
-    "dev:turbo": "turbo run dev",
-    "build": "npm run build:shared && npm run build:backend && npm run build:frontend",
-    "start": "cd apps/build/backend && npm run start",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Albina Blazhko",
-  "license": "ISC",
-  "devDependencies": {
-    "@eslint/js": "^9.20.0",
-    "@types/eslint": "^9.6.1",
-    "@types/prettier": "^2.7.3",
-    "@typescript-eslint/eslint-plugin": "^8.24.0",
-    "@typescript-eslint/parser": "^8.24.0",
-    "concurrently": "^9.1.2",
-    "eslint": "^9.20.1",
-    "globals": "^15.15.0",
-    "prettier": "^3.2.5",
-    "tsc-alias": "^1.8.10",
-    "turbo": "^2.4.4",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.24.0"
-  },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+	"name": "skill_sphere_app",
+	"version": "1.0.0",
+	"description": "Course platform",
+	"main": "index.js",
+	"type": "module",
+	"packageManager": "npm@10.9.2",
+	"scripts": {
+		"lint:format": "npx prettier . --write",
+		"lint:type": "npx tsc --noEmit",
+		"build:frontend": "npm run build -w apps/frontend",
+		"build:backend": "npm run build -w apps/backend",
+		"build:turbo": "turbo run build",
+		"dev:turbo": "turbo run dev",
+		"build": "npm run build:shared && npm run build:backend && npm run build:frontend",
+		"start": "cd apps/build/backend && npm run start",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Albina Blazhko",
+	"license": "ISC",
+	"devDependencies": {
+		"@eslint/js": "^9.20.0",
+		"@types/eslint": "^9.6.1",
+		"@types/prettier": "^2.7.3",
+		"@typescript-eslint/eslint-plugin": "^8.24.0",
+		"@typescript-eslint/parser": "^8.24.0",
+		"concurrently": "^9.1.2",
+		"eslint": "^9.20.1",
+		"globals": "^15.15.0",
+		"prettier": "^3.2.5",
+		"tsc-alias": "^1.8.10",
+		"turbo": "^2.4.4",
+		"typescript": "^5.7.3",
+		"typescript-eslint": "^8.24.0"
+	},
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	]
 }

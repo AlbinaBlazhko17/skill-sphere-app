@@ -1,7 +1,7 @@
-import baseConfig from "../../eslint.config.mjs";
+import baseConfig from '../../eslint.config.mjs';
 
 const ignoresConfig = {
-	ignores: ["build"],
+	ignores: ['build'],
 };
 
 export default {

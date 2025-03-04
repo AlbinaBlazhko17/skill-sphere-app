@@ -3,9 +3,9 @@ import { ApiRoute } from './api-route.interface.js';
 import type { Multer } from 'multer';
 
 export interface IBaseServerAppApi {
-  version: string;
-  routes: ApiRoute[];
+	version: string;
+	routes: ApiRoute[];
 
-  generateDocs(): SwaggerUiOptions;
-  connectToDB(): void;
+	generateDocs(): SwaggerUiOptions;
+	connectToDB(): void;
 }

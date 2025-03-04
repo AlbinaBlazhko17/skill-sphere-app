@@ -3,8 +3,8 @@ import { type RequestHandler } from 'express';
 import type { APIHandler } from './handler.type.js';
 
 export interface IControllerOptions<T extends string> {
-  method: HttpMethods;
-  path: T;
-  middlewares: RequestHandler[];
-  handler: APIHandler;
+	method: HttpMethods;
+	path: T;
+	middlewares: RequestHandler[];
+	handler: APIHandler;
 }

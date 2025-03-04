@@ -7,8 +7,8 @@ import { RouterProvider } from 'react-router';
 import '@/libs/styles/styles.css';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Toaster />
-    <RouterProvider router={router} />
-  </StrictMode>
+	<StrictMode>
+		<Toaster />
+		<RouterProvider router={router} />
+	</StrictMode>,
 );
