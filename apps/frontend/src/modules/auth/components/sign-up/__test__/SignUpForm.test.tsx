@@ -1,23 +1,8 @@
 import { SignUpForm } from '../SignUpForm';
 
-import { render, fireEvent, waitFor, screen, act } from '@testing-library/react';
 import { Toaster } from '@/components/ui';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { log } from 'console';
-import axios from 'axios';
-
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
-});
 
 describe('SignUpForm', () => {
   it('should render the form', () => {
