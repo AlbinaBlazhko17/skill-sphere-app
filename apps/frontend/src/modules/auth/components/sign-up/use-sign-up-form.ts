@@ -1,10 +1,9 @@
+import { API } from '@/libs/api';
+import { toastWrapper } from '@/libs/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ApiPath, AuthApiPath } from '@skill-sphere/shared';
 import { useForm } from 'react-hook-form';
 import { signUpFormDefaults, signUpFormSchema } from '../../libs';
-import { API } from '@/libs/api';
-import { ApiPath, AuthApiPath } from '@skill-sphere/shared';
-import { toast } from 'sonner';
-import { toastWrapper } from '@/libs/utils';
 
 export const useSignUpForm = () => {
   const form = useForm({
