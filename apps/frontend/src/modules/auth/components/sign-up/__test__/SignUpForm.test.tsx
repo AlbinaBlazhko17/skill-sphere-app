@@ -2,7 +2,6 @@ import { SignUpForm } from '../SignUpForm';
 
 import { Toaster } from '@/components/ui';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { log } from 'console';
 
 describe('SignUpForm', () => {
   it('should render the form', () => {
@@ -47,8 +46,6 @@ describe('SignUpForm', () => {
   });
 
   it('should show the toast when the form is submitted', async () => {
-    log('Test started');
-
     const wrapper = render(
       <>
         <SignUpForm />
