@@ -1,3 +1,3 @@
-import { X } from 'lucide-react';
+import { X, Loader2 } from 'lucide-react';
 
-export { X };
+export { X, Loader2 };
