@@ -1,11 +1,10 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 import { StorageKeys } from '../enums';
+import { VITE_BE_URL } from '../constants';
 
 const createApi = () => {
-  const BASE_URL = import.meta.env.VITE_BE_URL;
-
   return axios.create({
-    baseURL: `${BASE_URL}/api/v1`,
+    baseURL: `${VITE_BE_URL}/api/v1`,
     headers: {
       'Content-Type': 'application/json',
     },
