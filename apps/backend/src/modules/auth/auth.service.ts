@@ -1,11 +1,12 @@
 import { createUser, getUserByEmail } from '../users/user.repository.js';
 
+import type { IUserResponse } from '@skill-sphere/shared';
 import { generateToken } from '../../libs/utils/utils.js';
+import type { IUserResponseWithToken } from '@skill-sphere/shared';
 import signInSchema from './libs/schemas/sign-in.schema.js';
 import signUpSchema from './libs/schemas/sign-up.schema.js';
-import type { ISignInResponse, ISignUpRequest } from './libs/types/types.js';
+import type { ISignUpRequest } from './libs/types/types.js';
 import { comparePassword, hashPassword } from './libs/utils/utils.js';
-import type { IUserResponse } from '../users/user.js';
 
 export const signUp = async (
 	userData: ISignUpRequest,
@@ -25,7 +26,7 @@ export const signUp = async (
 export const signIn = async (
 	email: string,
 	password: string,
-): Promise<ISignInResponse> => {
+): Promise<IUserResponseWithToken> => {
 	await signInSchema.validate({ email, password });
 	const user = await getUserByEmail(email);
 

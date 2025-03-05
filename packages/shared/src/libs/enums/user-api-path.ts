@@ -3,4 +3,5 @@ export enum UserApiPath {
 	UPLOAD_AVATAR = '/:id/upload-avatar',
 	USER_AVATAR = '/:id/avatar',
 	USERS = '/users',
+	ME = '/me',
 }

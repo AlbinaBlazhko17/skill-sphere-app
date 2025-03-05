@@ -1,6 +1,5 @@
 import type { ISignUpRequest } from '../auth/libs/types/sign-up-request.interface.js';
 import type { IUpdateUser } from './libs/types/update-user.interface.js';
-import type { IUserResponse } from './user.js';
 import { User } from './user.model.js';
 
 export const createUser = async (userData: ISignUpRequest) => {
