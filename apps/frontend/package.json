@@ -71,7 +71,8 @@
 		"ts-node": "^10.9.2",
 		"typescript": "~5.7.2",
 		"typescript-eslint": "^8.22.0",
-		"vite": "^6.1.0"
+		"vite": "^6.1.0",
+		"vite-plugin-svgr": "^4.3.0"
 	},
 	"description": "Frontend for Skill Sphere",
 	"main": "eslint.config.js",
