@@ -1,5 +1,5 @@
+import { verifyToken } from 'src/libs/utils/verify-token.js';
 import type { IUpdateUser } from './libs/types/update-user.interface.js';
-import type { IUserResponse } from './user.js';
 import {
 	updateUserById,
 	getUserById,
@@ -67,4 +67,16 @@ export const getUsers = async () => {
 	}
 
 	return users;
+};
+
+export const getUserByToken = async (token: string) => {
+	const userId = verifyToken(token);
+
+	const user = await getUserById(userId);
+
+	if (!user) {
+		throw new Error('User not found');
+	}
+
+	return user;
 };

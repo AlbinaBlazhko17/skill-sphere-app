@@ -1,21 +1,31 @@
 import { API } from '@/libs/api';
+import { useAuth } from '@/libs/contexts';
 import { toastWrapper } from '@/libs/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ApiPath, AuthApiPath } from '@skill-sphere/shared';
+import {
+	ApiPath,
+	AuthApiPath,
+	type ISignInResponse,
+} from '@skill-sphere/shared';
+import type { AxiosResponse } from 'axios';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 import { signInFormDefaults, signInFormSchema } from '../../libs';
-import { useState } from 'react';
 
 export const useSignInForm = () => {
 	const form = useForm({
 		resolver: zodResolver(signInFormSchema),
 		defaultValues: signInFormDefaults,
 	});
+	const { initializeUser } = useAuth();
+	const navigate = useNavigate();
 
 	const onSubmit = form.handleSubmit((values) => {
 		API.post(`${ApiPath.AUTH}${AuthApiPath.SIGN_IN}`, values)
-			.then(() => {
+			.then((res: AxiosResponse<ISignInResponse>) => {
 				toastWrapper('Signed in successfully', 'success');
+				initializeUser(res.data.user);
+				navigate('/');
 			})
 			.catch(
 				({

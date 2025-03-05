@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader } from '@/components/ui';
 import { Text } from '@/components/common';
+import { Card, CardContent, CardHeader } from '@/components/ui';
 import { Link } from 'react-router';
 import { SignInForm } from './SignInForm';
 

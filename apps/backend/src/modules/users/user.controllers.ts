@@ -9,6 +9,7 @@ import type { IUpdateUser } from './libs/types/update-user.interface.js';
 import {
 	deleteUser,
 	getUser,
+	getUserByToken,
 	getUserImage,
 	getUsers,
 	updateUser,
@@ -58,6 +59,13 @@ import {
 class UserController extends Controller {
 	constructor() {
 		super();
+
+		this.addRoute({
+			method: HttpMethods.GET,
+			path: UserApiPath.ME,
+			middlewares: [authMiddleware],
+			handler: this.getUserMe,
+		});
 
 		this.addRoute({
 			method: HttpMethods.GET,
@@ -581,6 +589,85 @@ class UserController extends Controller {
 			return {
 				status: HttpCode.OK,
 				payload: users,
+			};
+		} catch (error) {
+			if (error instanceof Error) {
+				return {
+					status: HttpCode.INTERNAL_SERVER_ERROR,
+					payload: {
+						error: {
+							message: error.message,
+						},
+					},
+				};
+			}
+		}
+
+		return {
+			status: HttpCode.INTERNAL_SERVER_ERROR,
+			payload: {
+				error: {
+					message: 'Internal server error',
+				},
+			},
+		};
+	};
+
+	/**
+	 * @swagger
+	 * /users/me:
+	 *   get:
+	 *     tags:
+	 *       - User
+	 *     description: Get user information by token
+	 *     responses:
+	 *       200:
+	 *         description: User information
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               properties:
+	 *                 id:
+	 *                   type: string
+	 *                 firstName:
+	 *                   type: string
+	 *                 lastName:
+	 *                   type: string
+	 *                 email:
+	 *                   type: string
+	 *                 createdAt:
+	 *                   type: string
+	 *                   format: date-time
+	 *                 updatedAt:
+	 *                   type: string
+	 *                   format: date-time
+	 */
+
+	getUserMe = async (
+		req: Request,
+		_: Response,
+	): Promise<APIHandlerResponse> => {
+		const authHeader = req.headers['authorization'];
+		const token = authHeader && authHeader.split(' ')[1];
+
+		if (!token) {
+			return {
+				status: HttpCode.UNAUTHORIZED,
+				payload: {
+					error: {
+						message: 'Unauthorized',
+					},
+				},
+			};
+		}
+
+		try {
+			const user = await getUserByToken(token);
+
+			return {
+				status: HttpCode.OK,
+				payload: user,
 			};
 		} catch (error) {
 			if (error instanceof Error) {
