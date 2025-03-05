@@ -1,16 +1,16 @@
 import type { Request, Response } from 'express';
 import { Controller } from '../../libs/modules/controller/controller.js';
 
-import { HttpCode, HttpMethods } from '@skill-sphere/shared';
+import { HttpCode, HttpMethods, UserApiPath } from '@skill-sphere/shared';
 import path from 'path';
 import type { APIHandlerResponse } from 'src/libs/types/api-handler-response.type.js';
 import { authMiddleware } from '../auth/auth.middleware.js';
-import { UserApiPath } from './libs/enums/enums.js';
 import type { IUpdateUser } from './libs/types/update-user.interface.js';
 import {
 	deleteUser,
 	getUser,
 	getUserImage,
+	getUsers,
 	updateUser,
 	updateUserImage,
 } from './user.service.js';
@@ -93,6 +93,13 @@ class UserController extends Controller {
 			middlewares: [authMiddleware],
 			handler: this.getUserAvatar,
 		});
+
+		this.addRoute({
+			method: HttpMethods.GET,
+			path: UserApiPath.USERS,
+			middlewares: [authMiddleware],
+			handler: this.getAllUsers,
+		});
 	}
 
 	/**
@@ -144,7 +151,9 @@ class UserController extends Controller {
 			return {
 				status: HttpCode.BAD_REQUEST,
 				payload: {
-					message: 'User ID is required',
+					error: {
+						message: 'User ID is required',
+					},
 				},
 			};
 		}
@@ -153,7 +162,9 @@ class UserController extends Controller {
 			return {
 				status: HttpCode.FORBIDDEN,
 				payload: {
-					message: 'Forbidden',
+					error: {
+						message: 'Forbidden',
+					},
 				},
 			};
 		}
@@ -170,7 +181,9 @@ class UserController extends Controller {
 				return {
 					status: HttpCode.NOT_FOUND,
 					payload: {
-						message: error.message,
+						error: {
+							message: error.message,
+						},
 					},
 				};
 			}
@@ -179,7 +192,9 @@ class UserController extends Controller {
 		return {
 			status: HttpCode.INTERNAL_SERVER_ERROR,
 			payload: {
-				message: 'Internal server error',
+				error: {
+					message: 'Internal server error',
+				},
 			},
 		};
 	}
@@ -255,7 +270,9 @@ class UserController extends Controller {
 			return {
 				status: HttpCode.FORBIDDEN,
 				payload: {
-					message: 'Forbidden',
+					error: {
+						message: 'Forbidden',
+					},
 				},
 			};
 		}
@@ -275,7 +292,9 @@ class UserController extends Controller {
 			return {
 				status: HttpCode.INTERNAL_SERVER_ERROR,
 				payload: {
-					message: 'Internal server error',
+					error: {
+						message: 'Internal server error',
+					},
 				},
 			};
 		}
@@ -314,7 +333,9 @@ class UserController extends Controller {
 			return {
 				status: HttpCode.BAD_REQUEST,
 				payload: {
-					message: 'User ID is required',
+					error: {
+						message: 'User ID is required',
+					},
 				},
 			};
 		}
@@ -333,7 +354,9 @@ class UserController extends Controller {
 				return {
 					status: HttpCode.NOT_FOUND,
 					payload: {
-						message: error.message,
+						error: {
+							message: error.message,
+						},
 					},
 				};
 			}
@@ -342,7 +365,9 @@ class UserController extends Controller {
 		return {
 			status: HttpCode.INTERNAL_SERVER_ERROR,
 			payload: {
-				message: 'Internal server error',
+				error: {
+					message: 'Internal server error',
+				},
 			},
 		};
 	};
@@ -407,7 +432,9 @@ class UserController extends Controller {
 			return {
 				status: HttpCode.BAD_REQUEST,
 				payload: {
-					message: 'User ID is required',
+					error: {
+						message: 'User ID is required',
+					},
 				},
 			};
 		}
@@ -416,7 +443,9 @@ class UserController extends Controller {
 			return {
 				status: HttpCode.BAD_REQUEST,
 				payload: {
-					message: 'File is required',
+					error: {
+						message: 'File is required',
+					},
 				},
 			};
 		}
@@ -433,7 +462,9 @@ class UserController extends Controller {
 				return {
 					status: HttpCode.INTERNAL_SERVER_ERROR,
 					payload: {
-						message: error.message,
+						error: {
+							message: error.message,
+						},
 					},
 				};
 			}
@@ -508,6 +539,68 @@ class UserController extends Controller {
 			status: HttpCode.INTERNAL_SERVER_ERROR,
 			payload: {
 				message: 'Internal server error',
+			},
+		};
+	};
+
+	/**
+	 * @swagger
+	 * /users:
+	 *   get:
+	 *     tags:
+	 *       - User
+	 *     description: Get all users
+	 *     responses:
+	 *       200:
+	 *         description: Get all users
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               properties:
+	 *                 id:
+	 *                   type: string
+	 *                 firstName:
+	 *                   type: string
+	 *                 lastName:
+	 *                   type: string
+	 *                 email:
+	 *                   type: string
+	 *                 createdAt:
+	 *                   type: string
+	 *                   format: date-time
+	 *                 updatedAt:
+	 *                   type: string
+	 *                   format: date-time
+	 */
+
+	getAllUsers = async (): Promise<APIHandlerResponse> => {
+		try {
+			const users = await getUsers();
+
+			return {
+				status: HttpCode.OK,
+				payload: users,
+			};
+		} catch (error) {
+			if (error instanceof Error) {
+				return {
+					status: HttpCode.INTERNAL_SERVER_ERROR,
+					payload: {
+						error: {
+							message: error.message,
+						},
+					},
+				};
+			}
+		}
+
+		return {
+			status: HttpCode.INTERNAL_SERVER_ERROR,
+			payload: {
+				error: {
+					message: 'Internal server error',
+				},
 			},
 		};
 	};

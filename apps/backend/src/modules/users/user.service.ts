@@ -6,6 +6,7 @@ import {
 	deleteUserById,
 	attachImageToUser,
 	getUserImageById,
+	getAllUsers,
 } from './user.repository.js';
 
 export const getUser = async (id: string) => {
@@ -56,4 +57,14 @@ export const getUserImage = async (id: string) => {
 	}
 
 	return image;
+};
+
+export const getUsers = async () => {
+	const users = await getAllUsers();
+
+	if (!users.length) {
+		throw new Error('Users not found');
+	}
+
+	return users;
 };

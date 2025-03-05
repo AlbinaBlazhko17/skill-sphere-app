@@ -100,3 +100,16 @@ export const getUserImageById = async (id: string) => {
 
 	return user.image;
 };
+
+export const getAllUsers = async () => {
+	const users = await User.find();
+
+	return users.map((user) => ({
+		id: user.id,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		email: user.email,
+		createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
+		updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
+	}));
+};
