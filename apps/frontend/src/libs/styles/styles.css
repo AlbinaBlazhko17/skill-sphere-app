@@ -49,6 +49,7 @@
 	--violet-300: oklch(81.7% 0.1292 312.69);
 	--cyan-400: oklch(83.44% 0.1095 195.26);
 	--cyan-300: oklch(87.58% 0.1152 182.91);
+	--shadow-sm: 0px 0px 16px 8px rgba(245, 243, 255, 0.2);
 	--shadow-md: 0px 0px 32px 16px rgba(245, 243, 255, 0.2);
 	--shadow-lg: 0px 0px 64px 32px rgba(245, 243, 255, 0.2);
 }
@@ -136,6 +137,7 @@
 	--color-violet-300: var(--violet-300);
 	--color-cyan-400: var(--cyan-400);
 	--color-cyan-300: var(--cyan-300);
+	--shadow-sm: var(--shadow-sm);
 	--shadow-md: var(--shadow-md);
 	--shadow-lg: var(--shadow-lg);
 }

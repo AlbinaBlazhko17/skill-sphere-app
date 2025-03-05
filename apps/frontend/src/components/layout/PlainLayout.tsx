@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router';
-import { Icon } from './Icon';
+import { Icon } from '../common/Icon';
 
 export const PlainLayout = () => {
 	return (

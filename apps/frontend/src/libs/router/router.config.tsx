@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router';
-import { PlainLayout, ProtectedLayout } from '@/components/common';
+import { AppLayout, PlainLayout, ProtectedLayout } from '@/components/layout';
 import Home from '@/pages/Home';
 import SignUpPage from '@/pages/SignUpPage';
 import SignInPage from '@/pages/SignInPage';
@@ -22,8 +22,13 @@ export const router = createBrowserRouter([
 				],
 			},
 			{
-				path: '/',
-				element: <Home />,
+				element: <AppLayout />,
+				children: [
+					{
+						path: '/',
+						element: <Home />,
+					},
+				],
 			},
 		],
 	},

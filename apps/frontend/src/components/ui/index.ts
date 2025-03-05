@@ -20,3 +20,18 @@ export {
 export { Label } from './label';
 export { Input } from './input';
 export { Toaster } from './sonner';
+export {
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarGroup,
+	SidebarGroupContent,
+	SidebarGroupLabel,
+	SidebarMenu,
+	SidebarMenuItem,
+	SidebarMenuButton,
+	SidebarHeader,
+	SidebarProvider,
+	SidebarTrigger,
+	useSidebar,
+} from './sidebar';
