@@ -13,14 +13,18 @@ export const authMiddleware = async (
 
 	if (!token) {
 		res.status(HttpCode.UNAUTHORIZED).json({
-			message: 'Token is required',
+			error: {
+				message: 'Token is required',
+			},
 		});
 		return;
 	}
 
 	if (blocklist.has(token)) {
 		res.status(HttpCode.UNAUTHORIZED).json({
-			message: 'Invalid token',
+			error: {
+				message: 'Invalid token',
+			},
 		});
 		return;
 	}
@@ -36,7 +40,9 @@ export const authMiddleware = async (
 		next();
 	} catch (error) {
 		res.status(HttpCode.UNAUTHORIZED).json({
-			message: 'Invalid token',
+			error: {
+				message: 'Invalid token',
+			},
 		});
 		return;
 	}
