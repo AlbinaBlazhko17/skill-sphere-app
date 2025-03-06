@@ -3,6 +3,7 @@ export interface IUserResponse {
 	firstName: string;
 	lastName: string;
 	email: string;
+	imageUrl: string;
 	createdAt: Date;
 	updatedAt: Date;
 }

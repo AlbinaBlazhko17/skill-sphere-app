@@ -10,7 +10,7 @@ export const createUser = async (userData: ISignUpRequest) => {
 		firstName: user.firstName,
 		lastName: user.lastName,
 		email: user.email,
-		imageUrl: user.image ? user.image : '',
+		imageUrl: user.image ? 'http://localhost:8000/' + user.image : '',
 		createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
 		updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
 	};
@@ -26,7 +26,7 @@ export const getUserByEmail = async (email: string) => {
 		firstName: user.firstName,
 		lastName: user.lastName,
 		email: user.email,
-		imageUrl: user.image ? user.image : '',
+		imageUrl: user.image ? 'http://localhost:8000/' + user.image : '',
 		password: user.password,
 		createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
 		updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
@@ -43,7 +43,7 @@ export const getUserById = async (id: string) => {
 		firstName: user.firstName,
 		lastName: user.lastName,
 		email: user.email,
-		imageUrl: user.image,
+		imageUrl: user.image ? 'http://localhost:8000/' + user.image : '',
 		createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
 		updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
 	};
@@ -59,7 +59,7 @@ export const updateUserById = async (id: string, userData: IUpdateUser) => {
 		firstName: user.firstName,
 		lastName: user.lastName,
 		email: user.email,
-		imageUrl: user.image ? user.image : '',
+		imageUrl: user.image ? 'http://localhost:8000/' + user.image : '',
 		createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
 		updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
 	};
@@ -90,7 +90,7 @@ export const attachImageToUser = async (id: string, image: string) => {
 		firstName: user.firstName,
 		lastName: user.lastName,
 		email: user.email,
-		imageUrl: user.image ? user.image : '',
+		imageUrl: user.image ? 'http://localhost:8000/' + user.image : '',
 		createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
 		updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
 	};
@@ -112,7 +112,7 @@ export const getAllUsers = async () => {
 		firstName: user.firstName,
 		lastName: user.lastName,
 		email: user.email,
-		imageUrl: user.image ? user.image : '',
+		imageUrl: user.image ? 'http://localhost:8000/' + user.image : '',
 		createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
 		updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
 	}));

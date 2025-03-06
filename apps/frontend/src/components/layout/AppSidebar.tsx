@@ -60,12 +60,20 @@ export const AppSidebar = () => {
 			<SidebarFooter className={'pb-6'}>
 				<SidebarMenu className="mt-3 border-none">
 					<SidebarMenuItem className={'w-full'}>
-						<SidebarMenuButton size={'lg'}>
+						<SidebarMenuButton size={'lg'} className={'w-full px-1'}>
 							<Link to={'/'} className={'flex items-center gap-2'}>
-								<Icon
-									name={'UserCircle2'}
-									className={open ? 'size-7' : 'size-[31px]'}
-								/>
+								{user?.imageUrl ? (
+									<img
+										src={user?.imageUrl}
+										alt={user?.email}
+										className={`${open ? 'size-7' : 'size-[31px]'} max-w-[31px] overflow-hidden rounded-full border-2 border-violet-400 object-cover`}
+									/>
+								) : (
+									<Icon
+										name={'UserCircle2'}
+										className={open ? 'size-7' : 'size-[31px]'}
+									/>
+								)}
 								<Text variant={'p-b'} as={'span'} className={'mx-auto'}>
 									{user?.email}
 								</Text>
