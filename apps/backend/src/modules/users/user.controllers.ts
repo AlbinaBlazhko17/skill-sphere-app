@@ -103,6 +103,13 @@ class UserController extends Controller {
 		});
 
 		this.addRoute({
+			method: HttpMethods.DELETE,
+			path: UserApiPath.USER_AVATAR,
+			middlewares: [authMiddleware],
+			handler: this.deleteUserImage,
+		});
+
+		this.addRoute({
 			method: HttpMethods.GET,
 			path: UserApiPath.USERS,
 			middlewares: [authMiddleware],
@@ -460,6 +467,84 @@ class UserController extends Controller {
 
 		try {
 			const user = await updateUserImage(id, file.path);
+
+			return {
+				status: HttpCode.OK,
+				payload: user,
+			};
+		} catch (error) {
+			if (error instanceof Error) {
+				return {
+					status: HttpCode.INTERNAL_SERVER_ERROR,
+					payload: {
+						error: {
+							message: error.message,
+						},
+					},
+				};
+			}
+		}
+
+		return {
+			status: HttpCode.INTERNAL_SERVER_ERROR,
+			payload: {
+				message: 'Internal server error',
+			},
+		};
+	};
+
+	/**
+	 * @swagger
+	 * /users/{id}/avatar:
+	 *   delete:
+	 *     tags:
+	 *       - User
+	 *     description: Delete user avatar by user ID
+	 *     parameters:
+	 *       - in: path
+	 *         name: id
+	 *         required: true
+	 *         description: User ID
+	 *         schema:
+	 *           type: string
+	 *     responses:
+	 *       200:
+	 *         description: User avatar deleted successfully
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               properties:
+	 *                 id:
+	 *                   type: string
+	 *                 firstName:
+	 *                   type: string
+	 *                 lastName:
+	 *                   type: string
+	 *                 email:
+	 *                   type: string
+	 *                 createdAt:
+	 *                   type: string
+	 *                   format: date-time
+	 *                 updatedAt:
+	 *                   type: string
+	 *                   format: date-time
+	 */
+
+	deleteUserImage = async (req: Request): Promise<APIHandlerResponse> => {
+		const { id } = req.params;
+
+		if (!id) {
+			return {
+				status: HttpCode.BAD_REQUEST,
+				payload: {
+					message: 'User ID is required',
+				},
+			};
+		}
+
+		try {
+			const user = await updateUserImage(id, null);
 
 			return {
 				status: HttpCode.OK,

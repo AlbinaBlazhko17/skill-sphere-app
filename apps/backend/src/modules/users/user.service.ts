@@ -39,7 +39,7 @@ export const deleteUser = async (id: string): Promise<void> => {
 	return;
 };
 
-export const updateUserImage = async (id: string, image: string) => {
+export const updateUserImage = async (id: string, image: string | null) => {
 	const user = await attachImageToUser(id, image);
 
 	if (!user) {

@@ -80,7 +80,7 @@ export const deleteUserById = async (id: string) => {
 	};
 };
 
-export const attachImageToUser = async (id: string, image: string) => {
+export const attachImageToUser = async (id: string, image: string | null) => {
 	const user = await User.findByIdAndUpdate(id, { image }, { new: true });
 
 	if (!user) return null;
