@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+	createContext,
+	useContext,
+	useEffect,
+	useState,
+	type Dispatch,
+	type SetStateAction,
+} from 'react';
 import { API } from '../api';
 import {
 	ApiPath,
@@ -16,6 +23,7 @@ interface AuthContext {
 	user: IUserResponse | null;
 	initializeUser: (user: IUserResponseWithToken) => void;
 	logout: () => void;
+	setUser: Dispatch<SetStateAction<IUserResponse | null>>;
 }
 
 const AuthContext = createContext<AuthContext>({
@@ -24,6 +32,7 @@ const AuthContext = createContext<AuthContext>({
 	user: null,
 	initializeUser: () => {},
 	logout: () => {},
+	setUser: () => {},
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -37,6 +46,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			email: user.email,
 			firstName: user.firstName,
 			lastName: user.lastName,
+			imageUrl: user.imageUrl,
 			createdAt: user.createdAt,
 			updatedAt: user.updatedAt,
 		});
@@ -74,6 +84,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 				user,
 				initializeUser,
 				logout,
+				setUser,
 			}}
 		>
 			{children}
