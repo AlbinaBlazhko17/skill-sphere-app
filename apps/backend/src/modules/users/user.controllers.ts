@@ -459,7 +459,8 @@ class UserController extends Controller {
 		}
 
 		try {
-			const user = await updateUserImage(id, file.path);
+			const resolvedFilePath = path.resolve(file.path);
+			const user = await updateUserImage(id, resolvedFilePath);
 
 			return {
 				status: HttpCode.OK,
