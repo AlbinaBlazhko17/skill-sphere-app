@@ -3,6 +3,7 @@ import { AppLayout, PlainLayout, ProtectedLayout } from '@/components/layout';
 import Home from '@/pages/Home';
 import SignUpPage from '@/pages/SignUpPage';
 import SignInPage from '@/pages/SignInPage';
+import { PersonalProfilePage } from '@/pages/PersonalProfilePage';
 
 export const router = createBrowserRouter([
 	{
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
 					{
 						path: '/',
 						element: <Home />,
+					},
+					{
+						path: '/me',
+						element: <PersonalProfilePage />,
 					},
 				],
 			},

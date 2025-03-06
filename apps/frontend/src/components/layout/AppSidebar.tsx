@@ -61,7 +61,7 @@ export const AppSidebar = () => {
 				<SidebarMenu className="mt-3 border-none">
 					<SidebarMenuItem className={'w-full'}>
 						<SidebarMenuButton size={'lg'} className={'w-full px-1'}>
-							<Link to={'/'} className={'flex items-center gap-2'}>
+							<Link to={'/me'} className={'flex items-center gap-2'}>
 								{user?.imageUrl ? (
 									<img
 										src={user?.imageUrl}
