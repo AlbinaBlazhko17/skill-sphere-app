@@ -295,6 +295,58 @@ class AuthController extends Controller {
 		};
 	}
 
+	/**
+	 * @swagger
+	 * /auth/logout:
+	 *   post:
+	 *     tags:
+	 *       - Authentication
+	 *     description: Log out user from the system
+	 *     responses:
+	 *       200:
+	 *         description: Successful operation
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               properties:
+	 *                 message:
+	 *                   type: string
+	 *                   description: User logged out successfully
+	 *       500:
+	 *         description: Unexpected error
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               properties:
+	 *                 error:
+	 *                   type: object
+	 *                   properties:
+	 *                     message:
+	 *                       type: string
+	 *                       description: Unexpected error
+	 *                     details:
+	 *                       type: string
+	 *                       description: Error details
+	 *       401:
+	 *         description: Unauthorized
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               properties:
+	 *                 error:
+	 *                   type: object
+	 *                   properties:
+	 *                     message:
+	 *                       type: string
+	 *                       description: Unauthorized
+	 *                     details:
+	 *                       type: string
+	 *                       description: Error details
+	 */
+
 	async logout(req: Request): Promise<APIHandlerResponse> {
 		const authHeader = req.headers['authorization'];
 		const token = authHeader && authHeader.split(' ')[1];
