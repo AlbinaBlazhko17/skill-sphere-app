@@ -1,13 +1,13 @@
 import { Text } from '@/components/common';
 import { ImageUploader } from '../image-uploader';
 import { PersonalProfileForm } from '../personal-profile-form';
-import { Card } from '@/components/ui';
+import { Button, Card } from '@/components/ui';
 import { useAuth } from '@/libs/contexts';
 import { API } from '@/libs/api';
 import { ApiPath, type IUserResponse } from '@skill-sphere/shared';
 
 export const PersonalProfile = () => {
-	const { user, setUser } = useAuth();
+	const { user, setUser, logout } = useAuth();
 
 	const onImageUpload = async (file: File) => {
 		const formData = new FormData();
@@ -39,9 +39,20 @@ export const PersonalProfile = () => {
 
 	return (
 		<div className={'flex flex-col gap-10'}>
-			<Text as={'h1'} variant={'h4'} className={'text-center'}>
-				Personal Profile
-			</Text>
+			<div className={'grid grow grid-cols-3 items-center'}>
+				<Text as={'h1'} variant={'h4'} className={'col-start-2 text-center'}>
+					Personal Profile
+				</Text>
+				<div className={'flex w-full justify-end'}>
+					<Button
+						onClick={logout}
+						variant={'outline'}
+						className={'!m-0 mx-auto h-12 w-40'}
+					>
+						Log out
+					</Button>
+				</div>
+			</div>
 			<Card className={'w-1/2 px-6 shadow-sm'}>
 				<ImageUploader
 					initialImage={user?.imageUrl || ''}
