@@ -1,29 +1,49 @@
 import {
 	Form,
-	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
+	FormControl,
 	Input,
 	Button,
 	FormMessage,
 } from '@/components/ui';
-import { usePersonalProfileForm } from './use-personal-profile-form';
+import { useChangePassword } from './use-change-password';
 
-export const PersonalProfileForm = () => {
-	const { form, onSubmit } = usePersonalProfileForm();
+export const ChangePasswordForm = () => {
+	const { form, onSubmit } = useChangePassword();
 
 	return (
 		<Form {...form}>
 			<form onSubmit={onSubmit} className={'space-y-6'}>
 				<FormField
 					control={form.control}
-					name="firstName"
+					name="currentPassword"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel htmlFor={'firstName'}>First name</FormLabel>
+							<FormLabel htmlFor={'currentPassword'}>
+								Current password
+							</FormLabel>
 							<FormControl>
-								<Input {...field} id={'firstName'} />
+								<Input
+									{...field}
+									id={'currentPassword'}
+									autoComplete={'current-password'}
+									type={'password'}
+								/>
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="newPassword"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel htmlFor={'newPassword"'}>New password</FormLabel>
+							<FormControl>
+								<Input {...field} id={'newPassword"'} type={'password'} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -32,31 +52,24 @@ export const PersonalProfileForm = () => {
 
 				<FormField
 					control={form.control}
-					name="lastName"
+					name="newPasswordConfirm"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel htmlFor={'lastName'}>Last name</FormLabel>
+							<FormLabel htmlFor={'newPasswordConfirm"'}>
+								New password confirmation
+							</FormLabel>
 							<FormControl>
-								<Input {...field} id={'lastName'} />
+								<Input
+									{...field}
+									id={'newPasswordConfirm"'}
+									type={'password'}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
 
-				<FormField
-					control={form.control}
-					name="email"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel htmlFor={'email'}>Email</FormLabel>
-							<FormControl>
-								<Input {...field} id={'email'} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
 				{form.formState.isDirty && (
 					<div className={'flex justify-end'}>
 						<Button

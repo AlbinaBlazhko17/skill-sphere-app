@@ -7,7 +7,10 @@ import {
 	attachImageToUser,
 	getUserImageById,
 	getAllUsers,
+	changeUserPassword,
 } from './user.repository.js';
+import changePasswordSchema from './libs/schemas/change-password.schema.js';
+import { comparePassword } from '../auth/libs/utils/compare-passwords.js';
 
 export const getUser = async (id: string) => {
 	const user = await getUserById(id);
@@ -73,6 +76,44 @@ export const getUserByToken = async (token: string) => {
 	const userId = verifyToken(token);
 
 	const user = await getUserById(userId);
+
+	if (!user) {
+		throw new Error('User not found');
+	}
+
+	return {
+		id: user.id,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		email: user.email,
+		imageUrl: user.imageUrl,
+		createdAt: user.createdAt,
+		updatedAt: user.updatedAt,
+	};
+};
+
+export const changePassword = async (
+	id: string,
+	oldPassword: string,
+	newPassword: string,
+) => {
+	await changePasswordSchema.validate({ oldPassword, newPassword });
+	const oldUser = await getUserById(id);
+
+	if (!oldUser) {
+		throw new Error('User not found');
+	}
+
+	const isOldPasswordValid = await comparePassword(
+		oldPassword,
+		oldUser.password,
+	);
+
+	if (!isOldPasswordValid) {
+		throw new Error('Invalid password');
+	}
+
+	const user = await changeUserPassword(id, newPassword);
 
 	if (!user) {
 		throw new Error('User not found');

@@ -1,16 +1,16 @@
 import type { Request, Response } from 'express';
 
-import { HttpCode, HttpMethods, AuthApiPath } from '@skill-sphere/shared';
+import { AuthApiPath, HttpCode, HttpMethods } from '@skill-sphere/shared';
 import { errors } from '@vinejs/vine';
 
 import { MongoServerError } from 'mongodb';
 import { Controller } from '../../libs/modules/controller/controller.js';
 import type { APIHandlerResponse } from '../../libs/types/types.js';
+import { authMiddleware } from './auth.middleware.js';
 import { signIn, signUp } from './auth.service.js';
 import type { ISignInRequest } from './libs/types/sign-in-request.interface.js';
 import type { ISignUpRequest } from './libs/types/sign-up-request.interface.js';
 import { blocklist } from './libs/utils/blocklist.js';
-import { authMiddleware } from './auth.middleware.js';
 
 /**
  * @swagger

@@ -1,8 +1,10 @@
-import { createUser, getUserByEmail } from '../users/user.repository.js';
+import { createUser, getUserByEmail } from '../users/user.js';
 
-import type { IUserResponse } from '@skill-sphere/shared';
+import type {
+	IUserResponse,
+	IUserResponseWithToken,
+} from '@skill-sphere/shared';
 import { generateToken } from '../../libs/utils/utils.js';
-import type { IUserResponseWithToken } from '@skill-sphere/shared';
 import signInSchema from './libs/schemas/sign-in.schema.js';
 import signUpSchema from './libs/schemas/sign-up.schema.js';
 import type { ISignUpRequest } from './libs/types/types.js';
@@ -48,6 +50,7 @@ export const signIn = async (
 		firstName: user.firstName,
 		lastName: user.lastName,
 		email: user.email,
+		imageUrl: user.imageUrl,
 		createdAt: user.createdAt,
 		updatedAt: user.updatedAt,
 	};

@@ -7,6 +7,7 @@ import type { APIHandlerResponse } from 'src/libs/types/api-handler-response.typ
 import { authMiddleware } from '../auth/auth.middleware.js';
 import type { IUpdateUser } from './libs/types/update-user.interface.js';
 import {
+	changePassword,
 	deleteUser,
 	getUser,
 	getUserByToken,
@@ -15,6 +16,8 @@ import {
 	updateUser,
 	updateUserImage,
 } from './user.service.js';
+import { errors } from '@vinejs/vine';
+import { MongoServerError } from 'mongodb';
 
 /**
  * @swagger
@@ -114,6 +117,13 @@ class UserController extends Controller {
 			path: UserApiPath.USERS,
 			middlewares: [authMiddleware],
 			handler: this.getAllUsers,
+		});
+
+		this.addRoute({
+			method: HttpMethods.POST,
+			path: UserApiPath.CHANGE_PASSWORD,
+			middlewares: [authMiddleware],
+			handler: this.changeUserPassword,
 		});
 	}
 
@@ -776,6 +786,149 @@ class UserController extends Controller {
 			},
 		};
 	};
+
+	/**
+	 * @swagger
+	 * /users/{id}/change-password:
+	 *   post:
+	 *     tags:
+	 *       - User
+	 *     description: Change user password
+	 *     parameters:
+	 *       - in: path
+	 *         name: id
+	 *         required: true
+	 *         description: User ID
+	 *         schema:
+	 *           type: string
+	 *     requestBody:
+	 *       required: true
+	 *       content:
+	 *         application/json:
+	 *           schema:
+	 *             type: object
+	 *             properties:
+	 *               oldPassword:
+	 *                 type: string
+	 *               newPassword:
+	 *                 type: string
+	 *     responses:
+	 *       200:
+	 *         description: User password changed successfully
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               properties:
+	 *                 message:
+	 *                   type: string
+	 *       400:
+	 *         description: User ID is required
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               properties:
+	 *                 error:
+	 *                   type: object
+	 *                   properties:
+	 *                     message:
+	 *                       type: string
+	 *       500:
+	 *         description: Unexpected error
+	 *         content:
+	 *           application/json:
+	 *             schema:
+	 *               type: object
+	 *               properties:
+	 *                 error:
+	 *                   type: object
+	 *                   properties:
+	 *                     message:
+	 *                       type: string
+	 */
+
+	async changeUserPassword(
+		req: Request,
+		_: Response,
+	): Promise<APIHandlerResponse> {
+		const authHeader = req.headers['authorization'];
+		const token = authHeader && authHeader.split(' ')[1];
+		const { id } = req.params;
+
+		if (!id) {
+			return {
+				status: HttpCode.BAD_REQUEST,
+				payload: {
+					error: {
+						message: 'User ID is required',
+					},
+				},
+			};
+		}
+
+		try {
+			await changePassword(id, req.body.oldPassword, req.body.newPassword);
+
+			return {
+				status: HttpCode.OK,
+				payload: {
+					message: 'User password changed successfully',
+				},
+			};
+		} catch (error) {
+			if (error instanceof errors.E_VALIDATION_ERROR) {
+				return {
+					status: HttpCode.BAD_REQUEST,
+					payload: {
+						error: {
+							message: error.message,
+							details: error.messages
+								.map((message: { field: string; message: string }) => ({
+									[message.field]: message.message,
+								}))
+								.reduce(
+									(
+										acc: Record<string, string>,
+										curr: { field: string; message: string },
+									) => ({ ...acc, ...curr }),
+									[],
+								),
+						},
+					},
+				};
+			} else if (error instanceof MongoServerError) {
+				return {
+					status: HttpCode.INTERNAL_SERVER_ERROR,
+					payload: {
+						error: {
+							message: error.errmsg || 'Internal server error',
+							details: error.cause,
+						},
+					},
+				};
+			} else if (error instanceof Error) {
+				return {
+					status: HttpCode.UNAUTHORIZED,
+					payload: {
+						error: {
+							message: error.message,
+							details: error.cause,
+						},
+					},
+				};
+			}
+		}
+
+		return {
+			status: HttpCode.INTERNAL_SERVER_ERROR,
+			payload: {
+				error: {
+					message: 'Internal server error',
+				},
+			},
+		};
+	}
 }
 
 export { UserController };

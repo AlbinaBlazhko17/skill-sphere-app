@@ -5,6 +5,7 @@ import { Button, Card } from '@/components/ui';
 import { useAuth } from '@/libs/contexts';
 import { API } from '@/libs/api';
 import { ApiPath, type IUserResponse } from '@skill-sphere/shared';
+import { ChangePasswordForm } from '../change-password-form';
 
 export const PersonalProfile = () => {
 	const { user, setUser, logout } = useAuth();
@@ -53,14 +54,22 @@ export const PersonalProfile = () => {
 					</Button>
 				</div>
 			</div>
-			<Card className={'w-1/2 px-6 shadow-sm'}>
-				<ImageUploader
-					initialImage={user?.imageUrl || ''}
-					onImageUpload={onImageUpload}
-					onImageDelete={onImageDelete}
-				/>
-				<PersonalProfileForm />
-			</Card>
+			<div className={'flex items-start gap-10'}>
+				<Card className={'w-1/2 px-6 shadow-sm'}>
+					<ImageUploader
+						initialImage={user?.imageUrl || ''}
+						onImageUpload={onImageUpload}
+						onImageDelete={onImageDelete}
+					/>
+					<PersonalProfileForm />
+				</Card>
+				<Card className={'w-1/2 px-6 shadow-sm'}>
+					<Text as={'h2'} variant={'h5'} className={'text-center'}>
+						Change Password
+					</Text>
+					<ChangePasswordForm />
+				</Card>
+			</div>
 		</div>
 	);
 };

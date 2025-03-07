@@ -4,4 +4,5 @@ export enum UserApiPath {
 	USER_AVATAR = '/:id/avatar',
 	USERS = '/users',
 	ME = '/me',
+	CHANGE_PASSWORD = '/:id/change-password',
 }
